@@ -65,13 +65,75 @@ def input_matrix(n, text):
 #--------------Analysefunktionen------------------------------
 #-------------------------------------------------------------
 
-def mesh_analysis():
-    pass
+def mesh_analysis():                                          #Funktion Maschenstromanalyse
+    print("\nMaschenstromanalyse (Mesh)")
+
+    n = input_int("Anzahl Maschen: ")
+
+    # Eigenwiderstände
+    R_self = []
+    for i in range(n):
+        R_self.append(input_float(f"Eigenwiderstand Masche {i+1}: "))
+
+    # Gemeinsame Widerstände
+    R_shared = [[0]*n for _ in range(n)]
+    for i in range(n):
+        for j in range(i+1, n):
+            val = input_float(f"Gemeinsamer Widerstand zwischen Masche {i+1} und {j+1}: ")
+            R_shared[i][j] = val
+            R_shared[j][i] = val
+
+    # Quellen
+    V = []
+    for i in range(n):
+        V.append(input_float(f"Maschenquelle Masche {i+1}: "))
+
+    # Matrix aufbauen
+    A = build_simple_mesh_matrix(R_self, R_shared)
+
+    # Lösen
+    I = solve_linear_system(A, np.array(V))
+
+    # Ausgabe
+    print("\nErgebnis Maschenströme (in A):")
+    for i, val in enumerate(I, start=1):
+        print(f"  I_{i} = {val:.6f} A")
 
 #-------------------------------------------------------------
 
 def nodal_analysis():
-    pass
+    print("\nKnotenpotentialverfahren (Nodal)")
+
+    n = input_int("Anzahl Knoten: ")
+
+    # Widerstände zwischen Knoten
+    R_between = [[0]*n for _ in range(n)]
+    for i in range(n):
+        for j in range(i+1, n):
+            val = input_float(f"Widerstand zwischen Knoten {i+1} und {j+1}: ")
+            R_between[i][j] = val
+            R_between[j][i] = val
+
+    # Widerstände zur Masse
+    R_ground = []
+    for i in range(n):
+        R_ground.append(input_float(f"Widerstand Knoten {i+1} zur Masse: "))
+
+    # Eingespeiste Ströme
+    I = []
+    for i in range(n):
+        I.append(input_float(f"Eingespeister Strom Knoten {i+1}: "))
+
+    # Matrix aufbauen
+    G = build_simple_nodal_matrix(R_between, R_ground)
+
+    # Lösen
+    V = solve_linear_system(G, np.array(I))
+
+    # Ausgabe
+    print("\nErgebnis Knotenpotentiale (in V):")
+    for i, val in enumerate(V, start=1):
+        print(f"  V_{i} = {val:.6f} V")
 
 #-------------------------------------------------------------
 
