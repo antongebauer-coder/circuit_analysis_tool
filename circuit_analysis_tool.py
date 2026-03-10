@@ -25,6 +25,28 @@ def solve_linear_system(A, b):
    x = np.linalg.solve(A, b)
    return x
 
+#-------------------------------------------------------------
+
+# Grundstruktur für das Eingabesystem
+
+def input_int(prompt):
+   
+    #Liest später eine ganze Zahl ein.
+   
+    value = int(input(prompt))
+    return value
+
+#-------------------------------------------------------------
+
+def input_float(prompt):
+    
+    #Liest später eine Fließkommazahl ein.
+    
+    value = float(input(prompt))
+    return value
+
+
+
 def main():
     print("Wähle Methode:")
     print("  1 - Maschenstromanalyse (Mesh)")
