@@ -13,21 +13,9 @@ Widerständen und Spannungsquellen.
 
 import numpy as np
 
-def mesh_analysis():
-    pass
-
-def nodal_analysis():
-    pass
-
-def solve_linear_system(A, b):
-
-   #Löst das lineare Gleichungssystem A * x = b.
-   x = np.linalg.solve(A, b)
-   return x
-
 #-------------------------------------------------------------
-
-# Grundstruktur für das Eingabesystem
+#--------Grundstruktur für das Eingabesystem------------------
+#-------------------------------------------------------------
 
 def input_int(prompt):
    
@@ -47,6 +35,36 @@ def input_float(prompt):
 
 #-------------------------------------------------------------
 
+def input_float_list(n, text):
+    """
+    Liest n Fließkommazahlen ein und gibt sie als Liste zurück.
+    """
+    values = []
+    for i in range(n):
+        v = input_float(f"{text} {i+1}: ")
+        values.append(v)
+    return values
+
+#-------------------------------------------------------------
+
+def input_matrix(n, text):
+    """
+    Liest eine einfache n×n-Matrix ein.
+    Noch ohne Symmetrie oder Validierung.
+    """
+    M = []
+    for i in range(n):
+        row = []
+        for j in range(n):
+            v = input_float(f"{text} [{i+1},{j+1}]: ")
+            row.append(v)
+        M.append(row)
+    return M
+
+#-------------------------------------------------------------
+#--------------Analysefunktionen------------------------------
+#-------------------------------------------------------------
+
 def mesh_analysis():
     pass
 
@@ -54,14 +72,6 @@ def mesh_analysis():
 
 def nodal_analysis():
     pass
-
-#-------------------------------------------------------------
-
-def solve_linear_system(A, b):
-
-   #Löst das lineare Gleichungssystem A * x = b.
-   x = np.linalg.solve(A, b)
-   return x
 
 #-------------------------------------------------------------
 
@@ -120,6 +130,14 @@ def build_simple_nodal_matrix(R_between, R_ground):
 
     # Gibt die Leitwertmatrix zurück
     return G
+
+#-------------------------------------------------------------
+
+def solve_linear_system(A, b):
+
+   #Löst das lineare Gleichungssystem A * x = b.
+   x = np.linalg.solve(A, b)
+   return x
 
 
 ###########################################################################################################
