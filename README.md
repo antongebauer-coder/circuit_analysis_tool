@@ -48,6 +48,6 @@ Ergebnis Knotenpotentiale (in V):
 ----------------------------------------------------------------------------------------------
 
 Teammitglieder
-- Anton Gebauer
-- Anna-Maria Hartfelder
-- Jakub Warschow
+- Anton Gebauer - Dokumentation, Tests & Versionierung
+- Anna-Maria Hartfelder - Sovler & Mathematischer Kern
+- Jakub Warschow - Eingabesystem & Benutzerführung 
