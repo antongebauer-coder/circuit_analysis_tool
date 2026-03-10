@@ -19,6 +19,12 @@ def mesh_analysis():
 def nodal_analysis():
     pass
 
+def solve_linear_system(A, b):
+
+   #Löst das lineare Gleichungssystem A * x = b.
+   x = np.linalg.solve(A, b)
+   return x
+
 def main():
     print("Wähle Methode:")
     print("  1 - Maschenstromanalyse (Mesh)")
