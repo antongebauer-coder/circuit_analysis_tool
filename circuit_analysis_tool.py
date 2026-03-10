@@ -102,7 +102,38 @@ def mesh_analysis():                                          #Funktion Maschens
 #-------------------------------------------------------------
 
 def nodal_analysis():
-    pass
+    print("\nKnotenpotentialverfahren (Nodal)")
+
+    n = input_int("Anzahl Knoten: ")
+
+    # Widerstände zwischen Knoten
+    R_between = [[0]*n for _ in range(n)]
+    for i in range(n):
+        for j in range(i+1, n):
+            val = input_float(f"Widerstand zwischen Knoten {i+1} und {j+1}: ")
+            R_between[i][j] = val
+            R_between[j][i] = val
+
+    # Widerstände zur Masse
+    R_ground = []
+    for i in range(n):
+        R_ground.append(input_float(f"Widerstand Knoten {i+1} zur Masse: "))
+
+    # Eingespeiste Ströme
+    I = []
+    for i in range(n):
+        I.append(input_float(f"Eingespeister Strom Knoten {i+1}: "))
+
+    # Matrix aufbauen
+    G = build_simple_nodal_matrix(R_between, R_ground)
+
+    # Lösen
+    V = solve_linear_system(G, np.array(I))
+
+    # Ausgabe
+    print("\nErgebnis Knotenpotentiale (in V):")
+    for i, val in enumerate(V, start=1):
+        print(f"  V_{i} = {val:.6f} V")
 
 #-------------------------------------------------------------
 
