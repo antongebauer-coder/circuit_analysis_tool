@@ -6,7 +6,7 @@
 Projekt: Analyse elektrischer Netzwerke
 Autoren: Anton Gebauer, Anna-Maria Hartfelder, Jakub Waschow
 Datum: 09.03.2026
-Version: 0.1
+Version: 3.2
 
 Beschreibung:
 Dieses Konsolenprogramm dient zur Analyse einfacher linearer
@@ -22,13 +22,19 @@ Widerständen und Spannungsquellen.
 import numpy as np
 
 def input_int(prompt):
-   
-   while True:
-        try:
-            value = int(input(prompt))
-            return value
-        except ValueError:
-            print("Ungültige Eingabe. Bitte eine ganze Zahl eingeben.")
+        while True:
+            try:
+                value = int(input(prompt))
+            
+                if value <= 0:
+                    print("Bitte eine positive ganze Zahl eingeben.")
+                elif value > 10:
+                    print("Die Anzahl sollte 10 nicht überschreiten, um die Übersicht zu behalten.")
+                else:                
+                    return value
+                
+            except ValueError:
+                print("Ungültige Eingabe. Bitte eine gültige Zahl eingeben.")
 
 #------------------------------------------------------------#
 
@@ -39,7 +45,7 @@ def input_float(prompt):
             value = float(input(prompt).replace(',', '.'))
             return value
         except ValueError:
-            print("Ungültige Eingabe. Bitte eine Fließkommazahl eingeben.")
+            print("Ungültige Eingabe. Bitte eine gültige Zahl eingeben.")
 
 #------------------------------------------------------------#
 
@@ -76,26 +82,30 @@ def mesh_analysis():
     # Eigenwiderstände
     R_self = []
     for i in range(n):
-        R_self.append(input_float(f"Eigenwiderstand Masche {i+1}: "))
+        R_self.append(input_float(f"Eigenwiderstand Masche {i+1} (in Ohm): "))
 
     # Gemeinsame Widerstände
     R_shared = [[0]*n for _ in range(n)]
     for i in range(n):
         for j in range(i+1, n):
-            val = input_float(f"Gemeinsamer Widerstand zwischen Masche {i+1} und {j+1}: ")
+            val = input_float(f"Gemeinsamer Widerstand zwischen Masche {i+1} und {j+1} (in Ohm): ")
             R_shared[i][j] = val
             R_shared[j][i] = val
 
     # Quellen
     V = []
     for i in range(n):
-        V.append(input_float(f"Maschenquelle Masche {i+1}: "))
+        V.append(input_float(f"Maschenquelle Masche {i+1} (in V): "))
 
     # Matrix aufbauen
     A = build_simple_mesh_matrix(R_self, R_shared)
 
     # Lösen
     I = solve_linear_system(A, np.array(V))
+
+    if I is None:
+        print("Die Maschenströme konnten nicht berechnet werden.")
+        return
 
     # Ausgabe
     print("\nErgebnis Maschenströme (in A):")
@@ -113,7 +123,7 @@ def nodal_analysis():
     R_between = [[0]*n for _ in range(n)]
     for i in range(n):
         for j in range(i+1, n):
-            val = input_float(f"Widerstand zwischen Knoten {i+1} und {j+1}: ")
+            val = input_float(f"Widerstand zwischen Knoten {i+1} und {j+1} (in Ohm): ")
             R_between[i][j] = val
             R_between[j][i] = val
 
@@ -125,13 +135,17 @@ def nodal_analysis():
     # Eingespeiste Ströme
     I = []
     for i in range(n):
-        I.append(input_float(f"Eingespeister Strom Knoten {i+1}: "))
+        I.append(input_float(f"Eingespeister Strom Knoten {i+1} (in A): "))
 
     # Matrix aufbauen
     G = build_simple_nodal_matrix(R_between, R_ground)
 
     # Lösen
     V = solve_linear_system(G, np.array(I))
+
+    if V is None:
+        print("Die Knotenpotentiale konnten nicht berechnet werden.")
+        return
 
     # Ausgabe
     print("\nErgebnis Knotenpotentiale (in V):")
@@ -144,7 +158,6 @@ def nodal_analysis():
 
 def build_simple_mesh_matrix(R_self, R_shared):
     """
-    Erstes Grundgerüst für eine Maschenmatrix.
     R_self: Liste der Eigenwiderstände
     R_shared: Matrix der gemeinsamen Widerstände
     """
@@ -214,21 +227,34 @@ def solve_linear_system(A, b):                                #Löst das lineare
 ##############################################################
 
 def main():
-    print("Wähle Methode:")
-    print("  1 - Maschenstromanalyse (Mesh)")
-    print("  2 - Knotenpotentialverfahren (Nodal)")
-
     while True:
-        choice = int(input("Auswahl (1 oder 2): "))
-        if choice == 1:
-            mesh_analysis()
-            break
-        elif choice == 2:
-            nodal_analysis()
-            break
-        else:
-            print("Ungültige Auswahl. Bitte 1 oder 2 eingeben.")
-    
+        print("Wähle Methode:")
+        print("  1 - Maschenstromanalyse (Mesh)")
+        print("  2 - Knotenpotentialverfahren (Nodal)")
+        
+        while True:
+            try:
+                choice = int(input("Auswahl (1 oder 2): "))
+                if choice == 1:
+                    mesh_analysis()
+                    break
+                elif choice == 2:
+                    nodal_analysis()
+                    break
+                else:
+                    print("Ungültige Auswahl. Bitte 1 oder 2 eingeben.")
+            except ValueError:
+                print("Ungültige Eingabe. Bitte eine gültige Zahl eingeben.")
+
+        while True:
+            cont = input("Möchtest du eine weitere Analyse durchführen? (j/n): ").strip().lower()
+            if cont == 'j':
+                break
+            elif cont == 'n':
+                print("Programm wird beendet.")
+                return
+            else:
+                print("Ungültige Eingabe. Bitte 'j' für Ja oder 'n' für Nein eingeben.")    
 
 ##############################################################
 #------------------------------------------------------------#
