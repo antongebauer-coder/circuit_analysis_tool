@@ -21,7 +21,7 @@ Widerständen und Spannungsquellen.
 
 import numpy as np
 
-def input_int(prompt):
+def input_int(prompt):                                        #Liest eine ganze Zahl ein und gibt sie zurück.
    
    while True:
         try:
@@ -32,7 +32,7 @@ def input_int(prompt):
 
 #------------------------------------------------------------#
 
-def input_float(prompt):
+def input_float(prompt):                                      #Liest eine Fließkommazahl ein und gibt sie zurück.
     
     while True:
         try:
@@ -68,7 +68,7 @@ def input_matrix(n, text):                                    #Liest eine einfac
 #---------------------Analysefunktionen----------------------#
 #------------------------------------------------------------#
 
-def mesh_analysis():
+def mesh_analysis():                                          #Maschenstromanalyse (Mesh)
     print("\nMaschenstromanalyse (Mesh)")
 
     n = input_int("Anzahl Maschen: ")
@@ -104,7 +104,7 @@ def mesh_analysis():
 
 #------------------------------------------------------------#
 
-def nodal_analysis():
+def nodal_analysis():                                         #knotenpotentialverfahren (Nodal)
     print("\nKnotenpotentialverfahren (Nodal)")
 
     n = input_int("Anzahl Knoten: ")
@@ -142,7 +142,7 @@ def nodal_analysis():
 #------------------Matrixaufbau und Lösung-------------------#
 #------------------------------------------------------------#
 
-def build_simple_mesh_matrix(R_self, R_shared):
+def build_simple_mesh_matrix(R_self, R_shared):               #Baut eine Maschenmatrix basierend auf Eigenwiderständen und gemeinsamen Widerständen auf.
     """
     Erstes Grundgerüst für eine Maschenmatrix.
     R_self: Liste der Eigenwiderstände
@@ -168,7 +168,7 @@ def build_simple_mesh_matrix(R_self, R_shared):
 
 #------------------------------------------------------------#
 
-def build_simple_nodal_matrix(R_between, R_ground):
+def build_simple_nodal_matrix(R_between, R_ground):           #Baut eine Knotenmatrix basierend auf den Widerständen zwischen den Knoten und den Widerständen zur Masse auf.
     """
     Erstes Grundgerüst für eine Leitwertmatrix.
     R_between: Matrix der Widerstände zwischen Knoten
@@ -213,7 +213,7 @@ def solve_linear_system(A, b):                                #Löst das lineare
 #-----------------------Hauptprogramm------------------------#
 ##############################################################
 
-def main():
+def main():                                                   #Hauptfunktion, Auswahlaufforderung der Analysemethode, ruft entsprehende Funktion auf.
     print("Wähle Methode:")
     print("  1 - Maschenstromanalyse (Mesh)")
     print("  2 - Knotenpotentialverfahren (Nodal)")
