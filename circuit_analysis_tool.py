@@ -20,6 +20,7 @@ Widerständen und Spannungsquellen.
 #------------------------------------------------------------#
 
 import numpy as np
+import tkinter as tk
 
 def input_int(prompt):
         while True:
@@ -248,6 +249,87 @@ def solve_linear_system(A, b):                                #Löst das lineare
         return None
 
 ##############################################################
+#-----------------------Hilfefunktionen----------------------#
+##############################################################
+def show_mesh_help():
+   
+   #Fenster erstellen
+   root = tk.Tk()
+   root.title("Anleitung: Maschenstromverfahren")
+   root.geometry("720x520")
+   text = """
+    MASCHENSTROMANALYSE (MESH) - KURZANLEITUNG
+
+    1. Voraussetzungen
+    Im Netzwerk dürfen sich nur Widerstände und Spannungsquellen befinden.
+    Stromquellen oder abhängige Quellen müssen vorher umgewandelt werden.
+
+    2. Maschen festlegen
+    Bestimme die Anzahl der Maschen im Netzwerk und legen sie
+    für jede Masche eine Stromrichtung fest.
+
+    3. Eigenwiderstände
+    Gehe jede Masche entlang und gebe alle Widerstände an,
+    die ausschließlich in dieser Masche liegen.
+
+    4. Kopplungswiderstände
+    Überprüfe für jedes Maschenpaar, ob ein gemeinsamer Widerstand
+    existiert. Diese Widerstände nennt man Kopplungswiderstände.
+
+    5. Vorzeichen der Kopplungswiderstände
+    Wenn die Maschenströme durch den gemeinsamen Widerstand in
+    die gleiche Richtung fließen, ist der Widerstand positiv.
+    Fließen sie entgegengesetzt, ist der Widerstand negativ.
+
+    6. Maschenquellen
+    Alle Spannungsquellen innerhalb einer Masche werden berücksichtigt:
+    - Verlaufen sie entgegen der Maschenstromrichtung → positiv
+    - Verlaufen sie in Richtung des Maschenstroms → negativ
+    """
+    
+
+   label = tk.Label(root, text=text, justify=tk.LEFT, padx=10, pady=10)
+   label.pack()
+
+#------------------------------------------------------------#
+
+def show_nodal_help():
+
+    # Fenster erstellen
+    root = tk.Tk()
+    root.title("Anleitung: Knotenpotentialverfahren")
+    root.geometry("720x520")
+
+    text = """
+    KNOTENPOTENZIALANALYSE (NODAL) - KURZANLEITUNG
+
+    1. Voraussetzungen
+    Im Netzwerk dürfen sich nur Widerstände und Stromquellen befinden.
+    Spannungsquellen müssen vorher umgewandelt werden.
+
+    2. Bezugsknoten festlegen
+    Ein Knoten wird als Bezugsknoten gewählt und auf 0 V gesetzt.
+    Alle anderen Knotenpotentiale werden relativ zu diesem berechnet.
+
+    3. Widerstände zur Masse
+    Für jeden Knoten werden die Widerstände eingegeben,
+    die direkt vom Knoten weg führen.
+
+    4. Widerstände zwischen den Knoten
+    Für jedes Knotenpaar wird angegeben, ob ein Widerstand
+    zwischen diesen Knoten existiert.
+    Falls kein Widerstand vorhanden ist, wird 0 eingegeben.
+
+    5. Stromquellenströme
+    Alle Ströme, die in den Knoten fließen, werden positiv eingegeben.
+    Alle Ströme, die aus dem Knoten herausfließen, werden negativ eingegeben.
+
+    """
+    
+    label = tk.Label(root, text=text, justify=tk.LEFT, padx=10, pady=10)
+    label.pack()
+
+##############################################################
 #-----------------------Hauptprogramm------------------------#
 ##############################################################
 
@@ -260,10 +342,37 @@ def main():
         while True:
             try:
                 choice = int(input("Auswahl (1 oder 2): "))
+                need_help = input("Benötigst du Hilfe bei der Auswahl? (j/n): ").strip().lower()
                 if choice == 1:
+
+                    #Wenn der Benutzer Hilfe benötigt, wird die Hilfefunktion für das Maschenstromverfahren aufgerufen.
+                    while True:
+                        if need_help == 'j':
+                            show_mesh_help()
+                            break
+                        elif need_help == 'n':
+                            break
+                        else:
+                            print("Ungültige Eingabe. Bitte 'j' für Ja oder 'n' für Nein eingeben.")
+                            need_help = input("Benötigst du Hilfe bei der Auswahl? (j/n): ").strip().lower()
+                            pass
+
                     mesh_analysis()
                     break
                 elif choice == 2:
+
+                    #Wenn der Benutzer Hilfe benötigt, wird die Hilfefunktion für das Knotenpotentialverfahren aufgerufen.
+                    while True:
+                        if need_help == 'j':
+                            show_nodal_help()
+                            break
+                        elif need_help == 'n':
+                            break
+                        else:
+                            print("Ungültige Eingabe. Bitte 'j' für Ja oder 'n' für Nein eingeben.")
+                            need_help = input("Benötigst du Hilfe bei der Auswahl? (j/n): ").strip().lower()
+                        continue
+
                     nodal_analysis()
                     break
                 else:
