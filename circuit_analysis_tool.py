@@ -1,3 +1,7 @@
+#------------------------------------------------------------#
+#---------------------------Header---------------------------#
+#------------------------------------------------------------#
+
 '''
 Projekt: Analyse elektrischer Netzwerke
 Autoren: Anton Gebauer, Anna-Maria Hartfelder, Jakub Waschow
@@ -11,43 +15,46 @@ sowie die Maschenstromanalyse für kleine Schaltungen mit
 Widerständen und Spannungsquellen.
 '''
 
+#------------------------------------------------------------#
+#------------Grundstruktur für das Eingabesystem-------------#
+#------------------------------------------------------------#
+
 import numpy as np
 
 def input_int(prompt):
    
-    #Liest später eine ganze Zahl ein.
-   
-    value = int(input(prompt))
-    return value
+   while True:
+        try:
+            value = int(input(prompt))
+            return value
+        except ValueError:
+            print("Ungültige Eingabe. Bitte eine ganze Zahl eingeben.")
 
-#-------------------------------------------------------------
+#------------------------------------------------------------#
 
 def input_float(prompt):
     
-    #Liest später eine Fließkommazahl ein.
+    while True:
+        try:
+            value = float(input(prompt).replace(',', '.'))
+            return value
+        except ValueError:
+            print("Ungültige Eingabe. Bitte eine Fließkommazahl eingeben.")
+
+#------------------------------------------------------------#
+
+def input_float_list(n, text):                                #Liest n Fließkommazahlen ein und gibt sie als Liste zurück.
     
-    value = float(input(prompt))
-    return value
-
-#-------------------------------------------------------------
-
-def input_float_list(n, text):
-    """
-    Liest n Fließkommazahlen ein und gibt sie als Liste zurück.
-    """
     values = []
     for i in range(n):
         v = input_float(f"{text} {i+1}: ")
         values.append(v)
     return values
 
-#-------------------------------------------------------------
+#------------------------------------------------------------#
 
-def input_matrix(n, text):
-    """
-    Liest eine einfache n×n-Matrix ein.
-    Noch ohne Symmetrie oder Validierung.
-    """
+def input_matrix(n, text):                                    #Liest eine einfache n×n-Matrix ein.
+    
     M = []
     for i in range(n):
         row = []
@@ -57,11 +64,11 @@ def input_matrix(n, text):
         M.append(row)
     return M
 
-#-------------------------------------------------------------
-#--------------Analysefunktionen------------------------------
-#-------------------------------------------------------------
+#------------------------------------------------------------#
+#---------------------Analysefunktionen----------------------#
+#------------------------------------------------------------#
 
-def mesh_analysis():                                          #Funktion Maschenstromanalyse
+def mesh_analysis():
     print("\nMaschenstromanalyse (Mesh)")
 
     n = input_int("Anzahl Maschen: ")
@@ -95,7 +102,7 @@ def mesh_analysis():                                          #Funktion Maschens
     for i, val in enumerate(I, start=1):
         print(f"  I_{i} = {val:.6f} A")
 
-#-------------------------------------------------------------
+#------------------------------------------------------------#
 
 def nodal_analysis():
     print("\nKnotenpotentialverfahren (Nodal)")
@@ -131,7 +138,9 @@ def nodal_analysis():
     for i, val in enumerate(V, start=1):
         print(f"  V_{i} = {val:.6f} V")
 
-#-------------------------------------------------------------
+#------------------------------------------------------------#
+#------------------Matrixaufbau und Lösung-------------------#
+#------------------------------------------------------------#
 
 def build_simple_mesh_matrix(R_self, R_shared):
     """
@@ -157,7 +166,7 @@ def build_simple_mesh_matrix(R_self, R_shared):
     # Gibt die Maschenmatrix zurück
     return A
 
-#-------------------------------------------------------------
+#------------------------------------------------------------#
 
 def build_simple_nodal_matrix(R_between, R_ground):
     """
@@ -189,28 +198,41 @@ def build_simple_nodal_matrix(R_between, R_ground):
     # Gibt die Leitwertmatrix zurück
     return G
 
-#-------------------------------------------------------------
+#------------------------------------------------------------#
 
-def solve_linear_system(A, b):
+def solve_linear_system(A, b):                                #Löst das lineare Gleichungssystem Ax = b und gibt x zurück.
 
-   #Löst das lineare Gleichungssystem A * x = b.
-   x = np.linalg.solve(A, b)
-   return x
+   try: 
+        x = np.linalg.solve(A, b)
+        return x
+   except np.linalg.LinAlgError:
+        print("Fehler: Das lineare Gleichungssystem ist singulär.")
+        return None
 
-
-###########################################################################################################
+##############################################################
+#-----------------------Hauptprogramm------------------------#
+##############################################################
 
 def main():
     print("Wähle Methode:")
     print("  1 - Maschenstromanalyse (Mesh)")
     print("  2 - Knotenpotentialverfahren (Nodal)")
-    choice = int(input("Auswahl (1 oder 2): "))
-    if choice == 1:
-        mesh_analysis()
-    else:
-        nodal_analysis()
 
-#############################################################################################################
+    while True:
+        choice = int(input("Auswahl (1 oder 2): "))
+        if choice == 1:
+            mesh_analysis()
+            break
+        elif choice == 2:
+            nodal_analysis()
+            break
+        else:
+            print("Ungültige Auswahl. Bitte 1 oder 2 eingeben.")
+    
+
+##############################################################
+#------------------------------------------------------------#
+##############################################################
 
 if __name__ == "__main__":
     main()
