@@ -13,10 +13,6 @@ Widerständen und Spannungsquellen.
 
 import numpy as np
 
-#-------------------------------------------------------------
-#--------Grundstruktur für das Eingabesystem------------------
-#-------------------------------------------------------------
-
 def input_int(prompt):
    
     #Liest später eine ganze Zahl ein.
