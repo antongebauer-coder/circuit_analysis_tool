@@ -6,7 +6,7 @@
 Projekt: Analyse elektrischer Netzwerke
 Autoren: Anton Gebauer, Anna-Maria Hartfelder, Jakub Waschow
 Datum: 09.03.2026
-Version: 3.2
+Version: 3.3
 
 Beschreibung:
 Dieses Konsolenprogramm dient zur Analyse einfacher linearer
@@ -82,13 +82,25 @@ def mesh_analysis():
     # Eigenwiderstände
     R_self = []
     for i in range(n):
-        R_self.append(input_float(f"Eigenwiderstand Masche {i+1} (in Ohm): "))
+        while True:
+            r = input_float(f"Eigenwiderstand Masche {i+1} (in Ohm): ")
+            if r < 0:
+                print("Der Eigenwiderstand muss positiv sein. Bitte erneut eingeben.")
+            else:
+                R_self.append(r)
+                break
+        
 
     # Gemeinsame Widerstände
     R_shared = [[0]*n for _ in range(n)]
     for i in range(n):
         for j in range(i+1, n):
-            val = input_float(f"Gemeinsamer Widerstand zwischen Masche {i+1} und {j+1} (in Ohm): ")
+            while True:
+                val = input_float(f"Gemeinsamer Widerstand zwischen Masche {i+1} und {j+1} (in Ohm): ")
+                if val < 0:
+                    print("Der gemeinsame Widerstand muss positiv sein. Bitte erneut eingeben.")
+                else:
+                    break
             R_shared[i][j] = val
             R_shared[j][i] = val
 
@@ -123,14 +135,27 @@ def nodal_analysis():
     R_between = [[0]*n for _ in range(n)]
     for i in range(n):
         for j in range(i+1, n):
-            val = input_float(f"Widerstand zwischen Knoten {i+1} und {j+1} (in Ohm): ")
-            R_between[i][j] = val
-            R_between[j][i] = val
+            while True:
+                val = input_float(f"Widerstand zwischen Knoten {i+1} und {j+1} (in Ohm): ")
+                if val < 0:
+                    print("Der Widerstand zwischen Knoten darf nicht negativ sein. Bitte erneut eingeben.")
+                else:      
+                    R_between[i][j] = val
+                    R_between[j][i] = val              
+                    break
+
+                
 
     # Widerstände zur Masse
     R_ground = []
     for i in range(n):
-        R_ground.append(input_float(f"Widerstand Knoten {i+1} zur Masse: "))
+        while True:
+            r = input_float(f"Widerstand Knoten {i+1} zur Masse (in Ohm): ")
+            if r < 0:
+                print("Der Widerstand zur Masse darf nicht negativ sein. Bitte erneut eingeben.")
+            else:    
+                R_ground.append(r)
+                break
 
     # Eingespeiste Ströme
     I = []
