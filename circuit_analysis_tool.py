@@ -19,8 +19,6 @@ Widerständen und Spannungsquellen.
 #------------Grundstruktur für das Eingabesystem-------------#
 #------------------------------------------------------------#
 
-from logging import root
-
 import numpy as np
 import tkinter as tk
 
