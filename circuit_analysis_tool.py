@@ -333,9 +333,6 @@ def show_nodal_help():
 ##############################################################
 
 def main():                                                   #Hauptfunktion, Auswahlaufforderung der Analysemethode, ruft entsprehende Funktion auf.
-    print("Wähle Methode:")
-    print("  1 - Maschenstromanalyse (Mesh)")
-    print("  2 - Knotenpotentialverfahren (Nodal)")
 
     while True:
         print("Wähle Methode:")
@@ -345,7 +342,7 @@ def main():                                                   #Hauptfunktion, Au
         while True:
             try:
                 choice = int(input("Auswahl (1 oder 2): "))
-                need_help = input("Benötigst du Hilfe bei der Auswahl? (j/n): ").strip().lower()
+                need_help = input("Benötigst du Hilfe bei dem Verfahren? (j/n): ").strip().lower()
                 if choice == 1:
 
                     #Wenn der Benutzer Hilfe benötigt, wird die Hilfefunktion für das Maschenstromverfahren aufgerufen.
