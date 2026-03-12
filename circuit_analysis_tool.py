@@ -366,7 +366,7 @@ def main():                                                   #Hauptfunktion, Au
                             break
                         else:
                             print("Ungültige Eingabe. Bitte 'j' für Ja oder 'n' für Nein eingeben.")
-                            need_help = input("Benötigst du Hilfe bei der Auswahl? (j/n): ").strip().lower()
+                            need_help = input("Benötigst du Hilfe bei dem Verfahren? (j/n): ").strip().lower()
                             pass
 
                     mesh_analysis()
