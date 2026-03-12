@@ -36,10 +36,9 @@ def input_int(prompt):
                 
             except ValueError:
                 print("Ungültige Eingabe. Bitte eine gültige Zahl eingeben.")
-
 #------------------------------------------------------------#
 
-def input_float(prompt):
+def input_float(prompt):                                      #Liest eine Fließkommazahl ein und gibt sie zurück.
     
     while True:
         try:
@@ -75,7 +74,7 @@ def input_matrix(n, text):                                    #Liest eine einfac
 #---------------------Analysefunktionen----------------------#
 #------------------------------------------------------------#
 
-def mesh_analysis():
+def mesh_analysis():                                          #Maschenstromanalyse (Mesh)
     print("\nMaschenstromanalyse (Mesh)")
 
     n = input_int("Anzahl Maschen: ")
@@ -127,7 +126,7 @@ def mesh_analysis():
 
 #------------------------------------------------------------#
 
-def nodal_analysis():
+def nodal_analysis():                                         #knotenpotentialverfahren (Nodal)
     print("\nKnotenpotentialverfahren (Nodal)")
 
     n = input_int("Anzahl Knoten: ")
@@ -182,7 +181,7 @@ def nodal_analysis():
 #------------------Matrixaufbau und Lösung-------------------#
 #------------------------------------------------------------#
 
-def build_simple_mesh_matrix(R_self, R_shared):
+def build_simple_mesh_matrix(R_self, R_shared):               #Baut eine Maschenmatrix basierend auf Eigenwiderständen und gemeinsamen Widerständen auf.
     """
     R_self: Liste der Eigenwiderstände
     R_shared: Matrix der gemeinsamen Widerstände
@@ -207,7 +206,7 @@ def build_simple_mesh_matrix(R_self, R_shared):
 
 #------------------------------------------------------------#
 
-def build_simple_nodal_matrix(R_between, R_ground):
+def build_simple_nodal_matrix(R_between, R_ground):           #Baut eine Knotenmatrix basierend auf den Widerständen zwischen den Knoten und den Widerständen zur Masse auf.
     """
     Erstes Grundgerüst für eine Leitwertmatrix.
     R_between: Matrix der Widerstände zwischen Knoten
@@ -333,7 +332,8 @@ def show_nodal_help():
 #-----------------------Hauptprogramm------------------------#
 ##############################################################
 
-def main():
+def main():                                                   #Hauptfunktion, Auswahlaufforderung der Analysemethode, ruft entsprehende Funktion auf.
+
     while True:
         print("Wähle Methode:")
         print("  1 - Maschenstromanalyse (Mesh)")
@@ -342,7 +342,7 @@ def main():
         while True:
             try:
                 choice = int(input("Auswahl (1 oder 2): "))
-                need_help = input("Benötigst du Hilfe bei der Auswahl? (j/n): ").strip().lower()
+                need_help = input("Benötigst du Hilfe bei dem Verfahren? (j/n): ").strip().lower()
                 if choice == 1:
 
                     #Wenn der Benutzer Hilfe benötigt, wird die Hilfefunktion für das Maschenstromverfahren aufgerufen.
