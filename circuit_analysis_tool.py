@@ -19,6 +19,8 @@ Widerständen und Spannungsquellen.
 #------------Grundstruktur für das Eingabesystem-------------#
 #------------------------------------------------------------#
 
+from logging import root
+
 import numpy as np
 import tkinter as tk
 
@@ -256,6 +258,13 @@ def show_mesh_help():
    root = tk.Tk()
    root.title("Anleitung: Maschenstromverfahren")
    root.geometry("720x520")
+
+   # Fenster in den Vordergrund bringen
+   root.lift() 
+   root.attributes("-topmost", True)
+   root.after(200, lambda: root.attributes("-topmost", False))
+   root.focus_force()
+
    text = """
     MASCHENSTROMANALYSE (MESH) - KURZANLEITUNG
 
@@ -298,6 +307,12 @@ def show_nodal_help():
     root = tk.Tk()
     root.title("Anleitung: Knotenpotentialverfahren")
     root.geometry("720x520")
+    
+    # Fenster in den Vordergrund bringen
+    root.lift() 
+    root.attributes("-topmost", True)
+    root.after(200, lambda: root.attributes("-topmost", False))
+    root.focus_force()
 
     text = """
     KNOTENPOTENZIALANALYSE (NODAL) - KURZANLEITUNG
@@ -322,7 +337,6 @@ def show_nodal_help():
     5. Stromquellenströme
     Alle Ströme, die in den Knoten fließen, werden positiv eingegeben.
     Alle Ströme, die aus dem Knoten herausfließen, werden negativ eingegeben.
-
     """
     
     label = tk.Label(root, text=text, justify=tk.LEFT, padx=10, pady=10)
@@ -370,7 +384,7 @@ def main():                                                   #Hauptfunktion, Au
                             break
                         else:
                             print("Ungültige Eingabe. Bitte 'j' für Ja oder 'n' für Nein eingeben.")
-                            need_help = input("Benötigst du Hilfe bei der Auswahl? (j/n): ").strip().lower()
+                            need_help = input("Benötigst du Hilfe bei dem Verfahren? (j/n): ").strip().lower()
                         continue
 
                     nodal_analysis()
