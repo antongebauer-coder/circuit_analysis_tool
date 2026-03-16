@@ -12,18 +12,6 @@ Teammitglieder
 - Anna-Maria Hartfelder - Sovler & Mathematischer Kern
 - Jakub Warschow - Eingabesystem & Benutzerführung 
 
-Verwendete Bibliotheken:
-
-- NumPy
-
-Wir verwenden NumPy, weil es schnelle und effiziente mathematische Funktionen bereitstellt, die für die Analyse elektrischer Netzwerke notwendig sind.
-
-- Tkinter
-
-Tkinter wird in diesem Projekt nicht für eine vollständige grafische Oberfläche genutzt.
-Wir verwenden es ausschließlich, um ein kleines Popup-Fenster anzuzeigen, das eine Kurzanleitung für die Berechnungen enthält.
-
-
 ----------------------------------------------------------------------------------------------
 
 Beispiel: Maschenstromanalyse (2 Maschen)
