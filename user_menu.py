@@ -19,8 +19,9 @@ Widerständen und Spannungsquellen.
 #------------Grundstruktur für das Eingabesystem-------------#
 #------------------------------------------------------------#
 
-import numpy as np
-import tkinter as tk
+import numpy as np         # wird verwendet um mit Matrizen und linearen Gleichungssystemen zu arbeiten.
+import tkinter as tk       # wird verwendet um die Hilfefenster für die Anleitungen zu erstellen.
+import circuit_solve as cs     # wird verwendet um die Funktionen zum Aufbau der Matrizen und zum Lösen der linearen Gleichungssysteme zu nutzen.
 
 def input_int(prompt):
         while True:
@@ -110,10 +111,10 @@ def mesh_analysis():                                          #Maschenstromanaly
         V.append(input_float(f"Maschenquelle Masche {i+1} (in V): "))
 
     # Matrix aufbauen
-    A = build_simple_mesh_matrix(R_self, R_shared)
+    A = cs.build_simple_mesh_matrix(R_self, R_shared)
 
     # Lösen
-    I = solve_linear_system(A, np.array(V))
+    I = cs.solve_linear_system(A, np.array(V)) # wird verwendet um die Maschenströme zu berechnen, indem das lineare Gleichungssystem Ax = V gelöst wird, wobei A die Maschenmatrix und V die Maschenquellen sind.
 
     if I is None:
         print("Die Maschenströme konnten nicht berechnet werden.")
@@ -121,7 +122,7 @@ def mesh_analysis():                                          #Maschenstromanaly
 
     # Ausgabe
     print("\nErgebnis Maschenströme (in A):")
-    for i, val in enumerate(I, start=1):
+    for i, val in enumerate(I, start=1): #
         print(f"  I_{i} = {val:.6f} A")
 
 #------------------------------------------------------------#
@@ -163,10 +164,10 @@ def nodal_analysis():                                         #knotenpotentialve
         I.append(input_float(f"Eingespeister Strom Knoten {i+1} (in A): "))
 
     # Matrix aufbauen
-    G = build_simple_nodal_matrix(R_between, R_ground)
+    G = cs.build_simple_nodal_matrix(R_between, R_ground)
 
     # Lösen
-    V = solve_linear_system(G, np.array(I))
+    V = cs.solve_linear_system(G, np.array(I)) # wird verwendet um die Knotenpotentiale zu berechnen, indem das lineare Gleichungssystem Gx = I gelöst wird, wobei G die Leitwertmatrix und I die eingespeisten Ströme sind.
 
     if V is None:
         print("Die Knotenpotentiale konnten nicht berechnet werden.")
@@ -177,75 +178,6 @@ def nodal_analysis():                                         #knotenpotentialve
     for i, val in enumerate(V, start=1):
         print(f"  V_{i} = {val:.6f} V")
 
-#------------------------------------------------------------#
-#------------------Matrixaufbau und Lösung-------------------#
-#------------------------------------------------------------#
-
-def build_simple_mesh_matrix(R_self, R_shared):               #Baut eine Maschenmatrix basierend auf Eigenwiderständen und gemeinsamen Widerständen auf.
-    """
-    R_self: Liste der Eigenwiderstände
-    R_shared: Matrix der gemeinsamen Widerstände
-    """
-    # Zählt die Anzahl der Maschen basierend auf der Liste der Eigenwiderstände
-    Number_of_meshes = len(R_self)
-
-    # Leere quadratische Masche erzeugen für die Widerstände
-    A = np.zeros((Number_of_meshes, Number_of_meshes))
-
-    # Füllt die Maschenmatrix basierend auf den Eigenwiderständen und den gemeinsamen Widerständen
-    for i in range(Number_of_meshes):
-        A[i, i] = R_self[i] + np.sum(R_shared[i])
-        for j in range(Number_of_meshes):
-           
-            # Wenn i und j nicht gleich sind, wird der gemeinsame Widerstand von Masche i und j subtrahiert
-            if i != j:
-                A[i, j] = -R_shared[i][j]
-
-    # Gibt die Maschenmatrix zurück
-    return A
-
-#------------------------------------------------------------#
-
-def build_simple_nodal_matrix(R_between, R_ground):           #Baut eine Knotenmatrix basierend auf den Widerständen zwischen den Knoten und den Widerständen zur Masse auf.
-    """
-    Erstes Grundgerüst für eine Leitwertmatrix.
-    R_between: Matrix der Widerstände zwischen Knoten
-    R_ground: Liste der Widerstände zur Masse
-    """
-    # Zählt die Anzahl der Knoten basierend auf der Liste der Widerstände zur Masse
-    Number_of_nodes = len(R_ground)
-
-    # Leere quadratische Matrix für die Leitwerte erzeugen
-    G = np.zeros((Number_of_nodes, Number_of_nodes))
-
-    # Füllt die Leitwertmatrix basierend auf den Widerständen zwischen den Knoten und den Widerständen zur Masse
-    for i in range(Number_of_nodes):
-        sum_g = 0 
-        for j in range(Number_of_nodes):  
-        
-            if i != j and R_between[i][j] > 0:
-                gij = 1 / R_between[i][j]
-                G[i, j] = -gij
-                sum_g += gij
-
-        if R_ground[i] > 0:   # Wenn es einen Widerstand zur Masse gibt, wird der Leitwert addiert
-            sum_g += 1 / R_ground[i]
-
-        G[i, i] = sum_g 
-
-    # Gibt die Leitwertmatrix zurück
-    return G
-
-#------------------------------------------------------------#
-
-def solve_linear_system(A, b):                                #Löst das lineare Gleichungssystem Ax = b und gibt x zurück.
-
-   try: 
-        x = np.linalg.solve(A, b)
-        return x
-   except np.linalg.LinAlgError:
-        print("Fehler: Das lineare Gleichungssystem ist singulär.")
-        return None
 
 ##############################################################
 #-----------------------Hilfefunktionen----------------------#
@@ -253,8 +185,8 @@ def solve_linear_system(A, b):                                #Löst das lineare
 def show_mesh_help():
    
    #Fenster erstellen
-   root = tk.Tk()
-   root.title("Anleitung: Maschenstromverfahren")
+   root = tk.Tk() #wird verwendet um ein neues Fenster zu erstellen
+   root.title("Anleitung: Maschenstromverfahren") 
    root.geometry("720x520")
 
    # Fenster in den Vordergrund bringen
