@@ -286,9 +286,9 @@ def main():                                                   #Hauptfunktion, Au
         while True:
             try:
                 choice = int(input("Auswahl (1 oder 2): "))
-                need_help = input("Benötigst du Hilfe bei dem Verfahren? (j/n): ").strip().lower()
+                
                 if choice == 1:
-
+                    need_help = input("Benötigst du Hilfe bei dem Verfahren? (j/n): ").strip().lower()
                     #Wenn der Benutzer Hilfe benötigt, wird die Hilfefunktion für das Maschenstromverfahren aufgerufen.
                     while True:
                         if need_help == 'j':
@@ -304,7 +304,7 @@ def main():                                                   #Hauptfunktion, Au
                     mesh_analysis()
                     break
                 elif choice == 2:
-
+                    need_help = input("Benötigst du Hilfe bei dem Verfahren? (j/n): ").strip().lower()
                     #Wenn der Benutzer Hilfe benötigt, wird die Hilfefunktion für das Knotenpotentialverfahren aufgerufen.
                     while True:
                         if need_help == 'j':
