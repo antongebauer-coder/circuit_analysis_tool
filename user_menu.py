@@ -19,9 +19,9 @@ Widerständen und Spannungsquellen.
 #------------Grundstruktur für das Eingabesystem-------------#
 #------------------------------------------------------------#
 
-import numpy as np         # wird verwendet um mit Matrizen und linearen Gleichungssystemen zu arbeiten.
-import tkinter as tk       # wird verwendet um die Hilfefenster für die Anleitungen zu erstellen.
-import circuit_solve as cs     # wird verwendet um die Funktionen zum Aufbau der Matrizen und zum Lösen der linearen Gleichungssysteme zu nutzen.
+import numpy as np                                            # wird verwendet um mit Matrizen und linearen Gleichungssystemen zu arbeiten.
+import tkinter as tk                                          # wird verwendet um die Hilfefenster für die Anleitungen zu erstellen.
+import circuit_solve as cs                                    # wird verwendet um die Funktionen zum Aufbau der Matrizen und zum Lösen der linearen Gleichungssysteme zu nutzen.
 
 def input_int(prompt):
         while True:
@@ -114,7 +114,7 @@ def mesh_analysis():                                          #Maschenstromanaly
     A = cs.build_simple_mesh_matrix(R_self, R_shared)
 
     # Lösen
-    I = cs.solve_linear_system(A, np.array(V)) # wird verwendet um die Maschenströme zu berechnen, indem das lineare Gleichungssystem Ax = V gelöst wird, wobei A die Maschenmatrix und V die Maschenquellen sind.
+    I = cs.solve_linear_system(A, np.array(V))                #wird verwendet um die Maschenströme zu berechnen, indem das lineare Gleichungssystem Ax = V gelöst wird, wobei A die Maschenmatrix und V die Maschenquellen sind.
 
     if I is None:
         print("Die Maschenströme konnten nicht berechnet werden.")
@@ -167,7 +167,7 @@ def nodal_analysis():                                         #knotenpotentialve
     G = cs.build_simple_nodal_matrix(R_between, R_ground)
 
     # Lösen
-    V = cs.solve_linear_system(G, np.array(I)) # wird verwendet um die Knotenpotentiale zu berechnen, indem das lineare Gleichungssystem Gx = I gelöst wird, wobei G die Leitwertmatrix und I die eingespeisten Ströme sind.
+    V = cs.solve_linear_system(G, np.array(I))                #wird verwendet um die Knotenpotentiale zu berechnen, indem das lineare Gleichungssystem Gx = I gelöst wird, wobei G die Leitwertmatrix und I die eingespeisten Ströme sind.
 
     if V is None:
         print("Die Knotenpotentiale konnten nicht berechnet werden.")
@@ -185,7 +185,7 @@ def nodal_analysis():                                         #knotenpotentialve
 def show_mesh_help():
    
    #Fenster erstellen
-   root = tk.Tk() #wird verwendet um ein neues Fenster zu erstellen
+   root = tk.Tk()                                             #wird verwendet um ein neues Fenster zu erstellen
    root.title("Anleitung: Maschenstromverfahren") 
    root.geometry("720x520")
 

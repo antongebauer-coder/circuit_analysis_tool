@@ -1,5 +1,6 @@
 # Flowchart – Analyse elektrischer Netzwerke
 
+# Um das Flowchart zu starten strg + shift + V drücken
 ```mermaid
 flowchart TD
 
