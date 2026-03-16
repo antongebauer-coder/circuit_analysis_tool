@@ -12,31 +12,42 @@ Teammitglieder
 - Anna-Maria Hartfelder - Sovler & Mathematischer Kern
 - Jakub Warschow - Eingabesystem & Benutzerführung 
 
-----------------------------------------------------------------------------------------------------
-Beispielhafte Nutzung 
-- Eingaben:
-Wähle Methode:
-  1 - Maschenstromanalyse (Mesh)
-  2 - Knotenpotentialverfahren (Nodal)
-Auswahl (1 oder 2): 1
+----------------------------------------------------------------------------------------------
 
-Benötigst du Hilfe bei dem Verfahren? (j/n): n
+Beispiel: Maschenstromanalyse (2 Maschen)
 
-Anzahl Maschen: 2
-Eigenwiderstand Masche 1 (in Ohm): 15
-Eigenwiderstand Masche 2 (in Ohm): 10
-Gemeinsamer Widerstand zwischen Masche 1 und 2 (in Ohm): 5
-Maschenquelle Masche 1 (in V): 20
-Maschenquelle Masche 2 (in V): 25
+Eingabe:  
 
-- Ausgaben:
-Ergebnis Maschenströme (in A):
-  I_1 = 1.545455 A
-  I_2 = 2.181818 A
+Anzahl Maschen: 2  
+Eigenwiderstand Masche 1: 10  
+Eigenwiderstand Masche 2: 5  
+Gemeinsamer Widerstand zwischen Masche 1 und 2: 2  
+Maschenquelle Masche 1: 10  
+Maschenquelle Masche 2: 0  
 
-Danach kommt eine weiter Frage:
-Möchtest du eine weitere Analyse durchführen? (j/n): n
+Ausgabe:  
 
-Ausgabe: Programm wird beendet.
+Ergebnis Maschenströme (in A):  
+  I_1 = 0.909091 A  
+  I_2 = 0.259740 A  
 
+----------------------------------------------------------------------------------------------
 
+Beispiel: Knotenpotentialverfahren (2 Knoten)
+
+Eingabe:  
+
+Anzahl Knoten: 2  
+Widerstand zwischen Knoten 1 und 2: 4  
+Widerstand Knoten 1 zur Masse: 10  
+Widerstand Knoten 2 zur Masse: 0  
+Eingespeister Strom Knoten 1: 0.01  
+Eingespeister Strom Knoten 2: 0  
+
+Ausgabe:  
+
+Ergebnis Knotenpotentiale (in V):
+  V_1 = 0.0666667 V  
+  V_2 = 0.0166667 V
+
+----------------------------------------------------------------------------------------------
